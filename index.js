@@ -31,8 +31,13 @@ function decode(input) {
 		var tokens = input.match(singleMatcher);
 
 		for (var i = 1; i < tokens.length; i++) {
-			input = decodeComponents(tokens, i).join('');
-
+			var decoded = decodeComponents(tokens, i);
+			
+			if (Array.isArray(decoded)) {
+				input = decoded.join('');
+			} else {
+				return input; // early return because some strange things happened in decodeComponents
+			}
 			tokens = input.match(singleMatcher);
 		}
 
